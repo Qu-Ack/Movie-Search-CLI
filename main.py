@@ -3,9 +3,31 @@ import utils
 from inverted_index import InvertedIndex 
 from process_text import process_text
 
-
 def search(query: str) -> None:
-    print(f"searching for: {query}")
+    inverted_index = InvertedIndex()
+    inverted_index.load()
+    query_tokens = process_text(query)
+    scores: dict[int, float] = {}
+
+    for term in query_tokens:
+        for doc_id in inverted_index.get_documents(term):
+            scores[doc_id] = scores.get(doc_id, 0.0) + inverted_index.get_tfidf(
+                doc_id, term
+            )
+
+    ranked_doc_ids = sorted(
+        scores,
+        key=lambda doc_id: (-scores[doc_id], inverted_index.docmap[doc_id]["title"]),
+    )
+
+    if not ranked_doc_ids:
+        print("No movies found.")
+        return
+
+    print("\nTop movie matches:\n")
+    for position, doc_id in enumerate(ranked_doc_ids[:5], start=1):
+        print(f"{position}. {inverted_index.docmap[doc_id]['title']}")
+        print(f"{inverted_index.docmap[doc_id]["description"]}")
 
 
 def main():
@@ -24,13 +46,9 @@ def main():
     args = parser.parse_args()
     match args.command:
         case "search":
-            movies = utils.load_movies("data/movies.json")
-            for i in range(5):
-                processed_title = process_text(movies[i]["title"])
-                print(processed_title)
-        
-        case "build":
+            search(args.query)
 
+        case "build":
             inverted_index = InvertedIndex()
             inverted_index.build()
 
