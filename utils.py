@@ -1,9 +1,13 @@
 import json
+from typing import TypedDict
 
-def load_movies(path: str):
+class Movie(TypedDict):
+    id: int
+    title: str
+    description: str
+
+
+def load_movies(path: str) -> list[Movie]:
     with open(path, "r") as file:
         data = json.load(file)
-        print(data)
-
-
-
+    return data["movies"]
