@@ -63,6 +63,12 @@ uv run python main.py hybrid_search -q "space adventure" --top-n 5 --alpha 0.7
 - `0.0` means TF-IDF-only ranking
 - `0.7` favors semantic similarity while still using keyword matches
 
+Evaluate keyword and hybrid search against the golden dataset:
+
+```bash
+uv run python main.py evaluate --top-n 5 --alpha 0.7
+```
+
 ## Data
 
 The movie data lives in `data/movies.json`. Each movie has an `id`, `title`, and `description`.
