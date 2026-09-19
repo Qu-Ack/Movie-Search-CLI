@@ -1,32 +1,22 @@
-"""
-Movie Search CLI Entry Point.
-
-Run:
-    python main.py --help
-"""
-
-import sys
-from movie_search.cli import main
-from movie_search.evaluation import calculate_metrics, evaluate
 from movie_search.indexing.inverted_index import InvertedIndex
 from movie_search.indexing.semantic_index import SemanticIndex
+from movie_search.models import Movie, RAGResponse, SearchResult
 from movie_search.rag.pipeline import RAGPipeline
+from movie_search.rag.providers import GeminiProvider, get_llm_provider
 from movie_search.search.hybrid import HybridSearcher
-from movie_search.search.keyword import KeywordSearcher, normalize_scores
+from movie_search.search.keyword import KeywordSearcher
 from movie_search.search.semantic import SemanticSearcher
 
 __all__ = [
-    "main",
+    "Movie",
+    "SearchResult",
+    "RAGResponse",
     "InvertedIndex",
     "SemanticIndex",
     "KeywordSearcher",
     "SemanticSearcher",
     "HybridSearcher",
     "RAGPipeline",
-    "normalize_scores",
-    "calculate_metrics",
-    "evaluate",
+    "GeminiProvider",
+    "get_llm_provider",
 ]
-
-if __name__ == "__main__":
-    main()

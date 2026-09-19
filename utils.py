@@ -1,13 +1,11 @@
 import json
-from typing import TypedDict
+from movie_search.config import MOVIES_FILE
+from movie_search.models import Movie
 
-class Movie(TypedDict):
-    id: int
-    title: str
-    description: str
+__all__ = ["Movie", "load_movies"]
 
 
-def load_movies(path: str) -> list[Movie]:
-    with open(path, "r") as file:
+def load_movies(path: str = str(MOVIES_FILE)) -> list[Movie]:
+    with open(path, "r", encoding="utf-8") as file:
         data = json.load(file)
     return data["movies"]

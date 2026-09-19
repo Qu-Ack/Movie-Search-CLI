@@ -8,3 +8,6 @@ wheels/
 cache/
 # Virtual environments
 .venv
+# Environment variables
+.env
+.env.*
